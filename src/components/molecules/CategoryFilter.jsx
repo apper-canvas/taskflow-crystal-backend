@@ -21,21 +21,21 @@ const CategoryFilter = ({
       >
         All
       </button>
-      {categories.map((category) => (
+{categories.map((category) => (
         <button
           key={category.Id}
-          onClick={() => onCategoryChange(category.name)}
+          onClick={() => onCategoryChange(category.Name)}
           className={cn(
             "px-3 py-1 text-sm font-medium rounded-full transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-primary-500",
-            selectedCategory === category.name
+            selectedCategory === category.Name
               ? "text-white"
               : "bg-secondary-100 text-secondary-700 hover:bg-secondary-200"
           )}
-          style={selectedCategory === category.name ? {
-            backgroundColor: category.color
+          style={selectedCategory === category.Name ? {
+            backgroundColor: category.color_c
           } : undefined}
         >
-          {category.name}
+          {category.Name}
         </button>
       ))}
     </div>

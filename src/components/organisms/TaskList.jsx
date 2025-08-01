@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import TaskCard from "@/components/molecules/TaskCard";
-import { taskService } from "@/services/api/taskService";
-import { categoryService } from "@/services/api/categoryService";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import { categoryService } from "@/services/api/categoryService";
+import { taskService } from "@/services/api/taskService";
 import { shouldShowInTodayView, shouldShowInUpcomingView } from "@/utils/dateUtils";
-
 const TaskList = ({ 
   searchQuery, 
   selectedCategory, 
@@ -42,9 +41,9 @@ const TaskList = ({
     }
   };
 
-  const getCategoryColor = (categoryName) => {
-    const category = categories.find(c => c.name === categoryName);
-    return category ? category.color : "#64748b";
+const getCategoryColor = (categoryName) => {
+    const category = categories.find(c => c.Name === categoryName);
+    return category ? category.color_c : "#64748b";
   };
 
   const getFilteredTasks = () => {
@@ -59,26 +58,26 @@ const TaskList = ({
     // "all" view shows all tasks
 
     // Filter by category
-    if (selectedCategory) {
-      filteredTasks = filteredTasks.filter(task => task.category === selectedCategory);
+if (selectedCategory) {
+      filteredTasks = filteredTasks.filter(task => task.category_c === selectedCategory);
     }
 
     // Filter by search query
-    if (searchQuery.trim()) {
+if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filteredTasks = filteredTasks.filter(task => 
-        task.title.toLowerCase().includes(query) ||
-        task.description.toLowerCase().includes(query) ||
-        task.category.toLowerCase().includes(query)
+        (task.title_c || task.Name || "").toLowerCase().includes(query) ||
+        (task.description_c || "").toLowerCase().includes(query) ||
+        (task.category_c || "").toLowerCase().includes(query)
       );
     }
 
     // Sort tasks: incomplete first, then by creation date (newest first)
-    return filteredTasks.sort((a, b) => {
-      if (a.completed !== b.completed) {
-        return a.completed ? 1 : -1;
+return filteredTasks.sort((a, b) => {
+      if (a.completed_c !== b.completed_c) {
+        return a.completed_c ? 1 : -1;
       }
-      return new Date(b.createdAt) - new Date(a.createdAt);
+      return new Date(b.createdAt_c || b.CreatedOn) - new Date(a.createdAt_c || a.CreatedOn);
     });
   };
 
@@ -162,10 +161,10 @@ onAction={() => {
           className="animate-fade-in"
           style={{ animationDelay: `${index * 50}ms` }}
         >
-          <TaskCard
+<TaskCard
             task={task}
             onTaskUpdate={loadData}
-            categoryColor={getCategoryColor(task.category)}
+            categoryColor={getCategoryColor(task.category_c)}
           />
         </div>
       ))}

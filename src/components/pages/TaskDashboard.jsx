@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import TaskDashboardHeader from "@/components/organisms/TaskDashboardHeader";
 import TaskForm from "@/components/molecules/TaskForm";
 import TaskList from "@/components/organisms/TaskList";
 import { categoryService } from "@/services/api/categoryService";
-
 const TaskDashboard = ({ view: propView }) => {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
+const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const { isAuthenticated } = useSelector((state) => state.user);
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      // Will be handled by App.jsx authentication logic
+      return;
+    }
+  }, [isAuthenticated]);
   // Determine current view from URL or props
   const getCurrentView = () => {
     if (propView) return propView;
@@ -37,7 +45,7 @@ const TaskDashboard = ({ view: propView }) => {
     return () => window.removeEventListener('clearSearch', handleClearSearch);
   }, []);
 
-  const loadCategories = async () => {
+const loadCategories = async () => {
     try {
       const categoryData = await categoryService.getAll();
       setCategories(categoryData);

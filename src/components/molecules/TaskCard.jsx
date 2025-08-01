@@ -18,7 +18,7 @@ const TaskCard = ({ task, onTaskUpdate, categoryColor, className }) => {
       await taskService.toggleComplete(task.Id);
       onTaskUpdate();
       
-      if (!task.completed) {
+      if (!task.completed_c) {
         toast.success("Task completed! 🎉");
       } else {
         toast.info("Task marked as incomplete");
@@ -49,20 +49,20 @@ const TaskCard = ({ task, onTaskUpdate, categoryColor, className }) => {
     }
   };
 
-  const dueDateStatus = getDueDateStatus(task.dueDate);
-  const formattedDueDate = formatDueDate(task.dueDate);
+  const dueDateStatus = getDueDateStatus(task.dueDate_c);
+  const formattedDueDate = formatDueDate(task.dueDate_c);
 
   return (
     <div 
       className={cn(
         "task-card bg-white rounded-lg shadow-soft border border-secondary-200 p-4 transition-all duration-150",
-        task.completed && "task-completed",
+        task.completed_c && "task-completed",
         className
       )}
     >
       <div className="flex items-start space-x-3">
         <Checkbox
-          checked={task.completed}
+          checked={task.completed_c}
           onChange={handleToggleComplete}
           disabled={isUpdating || isDeleting}
           className="mt-0.5"
@@ -74,28 +74,28 @@ const TaskCard = ({ task, onTaskUpdate, categoryColor, className }) => {
               <h3 
                 className={cn(
                   "task-title text-sm font-medium text-secondary-900 mb-1",
-                  task.completed && "line-through text-secondary-500"
+                  task.completed_c && "line-through text-secondary-500"
                 )}
               >
-                {task.title}
+                {task.title_c || task.Name}
               </h3>
               
-              {task.description && (
+              {task.description_c && (
                 <p className={cn(
                   "text-sm text-secondary-600 mb-2",
-                  task.completed && "text-secondary-400"
+                  task.completed_c && "text-secondary-400"
                 )}>
-                  {task.description}
+                  {task.description_c}
                 </p>
               )}
               
               <div className="flex items-center space-x-3">
-                {task.category && (
+                {task.category_c && (
                   <Badge 
                     variant="custom"
                     color={categoryColor}
                   >
-                    {task.category}
+                    {task.category_c}
                   </Badge>
                 )}
                 

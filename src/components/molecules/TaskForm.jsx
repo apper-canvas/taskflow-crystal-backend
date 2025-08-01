@@ -10,16 +10,16 @@ import { taskService } from "@/services/api/taskService";
 import { categoryService } from "@/services/api/categoryService";
 
 const TaskForm = ({ onTaskCreated, className }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    category: "Development",
-    dueDate: ""
+const [formData, setFormData] = useState({
+    Name: "",
+    title_c: "",
+    description_c: "",
+    category_c: "Development",
+    dueDate_c: ""
   });
   const [categories, setCategories] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
-
   useEffect(() => {
     loadCategories();
   }, []);
@@ -33,10 +33,10 @@ const TaskForm = ({ onTaskCreated, className }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.title.trim()) {
+    if (!formData.title_c.trim() && !formData.Name.trim()) {
       toast.error("Task title is required");
       return;
     }
@@ -45,17 +45,23 @@ const TaskForm = ({ onTaskCreated, className }) => {
     
     try {
       const taskData = {
-        ...formData,
-        dueDate: formData.dueDate ? new Date(formData.dueDate).toISOString() : null
+        Name: formData.title_c || formData.Name,
+        title_c: formData.title_c || formData.Name,
+        description_c: formData.description_c,
+        category_c: formData.category_c,
+        dueDate_c: formData.dueDate_c ? new Date(formData.dueDate_c).toISOString() : null,
+        completed_c: false,
+        createdAt_c: new Date().toISOString()
       };
       
       await taskService.create(taskData);
       
       setFormData({
-        title: "",
-        description: "",
-        category: "Development",
-        dueDate: ""
+        Name: "",
+        title_c: "",
+        description_c: "",
+        category_c: "Development",
+        dueDate_c: ""
       });
       
       setShowForm(false);
@@ -70,39 +76,44 @@ const TaskForm = ({ onTaskCreated, className }) => {
     }
   };
 
-  const handleKeyDown = (e) => {
+const handleKeyDown = (e) => {
     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
       handleSubmit(e);
     }
     if (e.key === "Escape") {
       setShowForm(false);
       setFormData({
-        title: "",
-        description: "",
-        category: "Development",
-        dueDate: ""
+        Name: "",
+        title_c: "",
+        description_c: "",
+        category_c: "Development",
+        dueDate_c: ""
       });
     }
   };
 
-  const quickAddTask = async (e) => {
-    if (e.key === "Enter" && formData.title.trim() && !showForm) {
+const quickAddTask = async (e) => {
+    if (e.key === "Enter" && formData.title_c.trim() && !showForm) {
       e.preventDefault();
       setIsSubmitting(true);
       
       try {
         await taskService.create({
-          title: formData.title,
-          description: "",
-          category: "Development",
-          dueDate: null
+          Name: formData.title_c,
+          title_c: formData.title_c,
+          description_c: "",
+          category_c: "Development",
+          dueDate_c: null,
+          completed_c: false,
+          createdAt_c: new Date().toISOString()
         });
         
         setFormData({
-          title: "",
-          description: "",
-          category: "Development",
-          dueDate: ""
+          Name: "",
+          title_c: "",
+          description_c: "",
+          category_c: "Development",
+          dueDate_c: ""
         });
         
         onTaskCreated();
@@ -126,11 +137,11 @@ const TaskForm = ({ onTaskCreated, className }) => {
             size={20} 
             className="text-primary-600"
           />
-          <Input
+<Input
             type="text"
             placeholder="Add a new task... (Press Enter to save quickly)"
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            value={formData.title_c}
+            onChange={(e) => setFormData({ ...formData, title_c: e.target.value, Name: e.target.value })}
             onKeyDown={quickAddTask}
             className="flex-1"
             disabled={isSubmitting}
@@ -154,9 +165,9 @@ const TaskForm = ({ onTaskCreated, className }) => {
               <label className="block text-sm font-medium text-secondary-700 mb-1">
                 Description
               </label>
-              <Textarea
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+<Textarea
+                value={formData.description_c}
+                onChange={(e) => setFormData({ ...formData, description_c: e.target.value })}
                 placeholder="Add more details about this task..."
                 rows={2}
               />
@@ -167,13 +178,13 @@ const TaskForm = ({ onTaskCreated, className }) => {
                 <label className="block text-sm font-medium text-secondary-700 mb-1">
                   Category
                 </label>
-                <Select
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+<Select
+                  value={formData.category_c}
+                  onChange={(e) => setFormData({ ...formData, category_c: e.target.value })}
                 >
                   {categories.map((category) => (
-                    <option key={category.Id} value={category.name}>
-                      {category.name}
+                    <option key={category.Id} value={category.Name}>
+                      {category.Name}
                     </option>
                   ))}
                 </Select>
@@ -183,10 +194,10 @@ const TaskForm = ({ onTaskCreated, className }) => {
                 <label className="block text-sm font-medium text-secondary-700 mb-1">
                   Due Date
                 </label>
-                <Input
+<Input
                   type="date"
-                  value={formData.dueDate}
-                  onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+                  value={formData.dueDate_c}
+                  onChange={(e) => setFormData({ ...formData, dueDate_c: e.target.value })}
                   min={format(new Date(), "yyyy-MM-dd")}
                 />
               </div>
@@ -196,13 +207,14 @@ const TaskForm = ({ onTaskCreated, className }) => {
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => {
+onClick={() => {
                   setShowForm(false);
                   setFormData({
-                    title: "",
-                    description: "",
-                    category: "Development",
-                    dueDate: ""
+                    Name: "",
+                    title_c: "",
+                    description_c: "",
+                    category_c: "Development",
+                    dueDate_c: ""
                   });
                 }}
               >
@@ -210,7 +222,7 @@ const TaskForm = ({ onTaskCreated, className }) => {
               </Button>
               <Button
                 type="submit"
-                disabled={!formData.title.trim() || isSubmitting}
+                disabled={!formData.title_c.trim() || isSubmitting}
               >
                 {isSubmitting ? (
                   <div className="flex items-center space-x-2">
