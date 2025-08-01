@@ -1,0 +1,52 @@
+[
+  {
+    "Id": 1,
+    "title": "Review quarterly budget report",
+    "description": "Analyze Q3 budget performance and prepare recommendations for Q4 adjustments",
+    "category": "Finance",
+    "dueDate": "2024-01-15T09:00:00.000Z",
+    "completed": false,
+    "createdAt": "2024-01-10T08:30:00.000Z",
+    "completedAt": null
+  },
+  {
+    "Id": 2,
+    "title": "Schedule team standup meetings",
+    "description": "Set up recurring daily standups for the development team",
+    "category": "Management",
+    "dueDate": "2024-01-14T10:00:00.000Z",
+    "completed": true,
+    "createdAt": "2024-01-12T14:20:00.000Z",
+    "completedAt": "2024-01-13T11:15:00.000Z"
+  },
+  {
+    "Id": 3,
+    "title": "Update project documentation",
+    "description": "Revise API documentation and user guides for the latest release",
+    "category": "Documentation",
+    "dueDate": "2024-01-16T17:00:00.000Z",
+    "completed": false,
+    "createdAt": "2024-01-11T16:45:00.000Z",
+    "completedAt": null
+  },
+  {
+    "Id": 4,
+    "title": "Prepare client presentation",
+    "description": "Create slides for upcoming client meeting showcasing project progress",
+    "category": "Client Work",
+    "dueDate": "2024-01-18T14:00:00.000Z",
+    "completed": false,
+    "createdAt": "2024-01-13T09:10:00.000Z",
+    "completedAt": null
+  },
+  {
+    "Id": 5,
+    "title": "Code review for feature branch",
+    "description": "Review pull request for new authentication feature",
+    "category": "Development",
+    "dueDate": null,
+    "completed": false,
+    "createdAt": "2024-01-13T15:30:00.000Z",
+    "completedAt": null
+  }
+]

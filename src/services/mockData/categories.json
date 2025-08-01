@@ -1,0 +1,27 @@
+[
+  {
+    "Id": 1,
+    "name": "Development",
+    "color": "#3b82f6"
+  },
+  {
+    "Id": 2,
+    "name": "Management",
+    "color": "#10b981"
+  },
+  {
+    "Id": 3,
+    "name": "Documentation",
+    "color": "#f59e0b"
+  },
+  {
+    "Id": 4,
+    "name": "Client Work",
+    "color": "#ef4444"
+  },
+  {
+    "Id": 5,
+    "name": "Finance",
+    "color": "#8b5cf6"
+  }
+]
